@@ -7,6 +7,7 @@ const argv = process.argv;
  * an error
  */
 async function cat(path){
+  // TODO: pull console.log outside try/catch
   try{
     let contents = await fsP.readFile(`${[path]}`, "utf8");
     console.log(contents);
@@ -21,7 +22,6 @@ async function cat(path){
 async function webCat(url){
   try{
     const response = await fetch(url);
-
     console.log("response", await response.text());
   }
   catch(err){
