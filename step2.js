@@ -3,41 +3,43 @@
 const fsP = require("fs/promises");
 const argv = process.argv;
 
+
 /** Takes a file path and shows it's file contents or return
  * an error
  */
-async function cat(path){
-  // TODO: pull console.log outside try/catch
-  try{
-    let contents = await fsP.readFile(`${[path]}`, "utf8");
-    console.log(contents);
+async function cat(path) {
+  let content;
+
+  try {
+    content = await fsP.readFile(`${[path]}`, "utf8");
   }
-  catch(err){
+  catch (err) {
     console.log("Error:", err);
     process.exit(1);
   }
-}
 
+  console.log(content);
+}
 /**Takes a URL and shows it's html contents or errors*/
-async function webCat(url){
-  try{
-    const response = await fetch(url);
-    console.log("response", await response.text());
+async function webCat(url) {
+  let response;
+  try {
+    response = await fetch(url);
   }
-  catch(err){
+  catch (err) {
     console.log("error", err);
     process.exit(1);
   }
-
+  console.log("response", await response.text());
 }
 
 /**Determine whether a URL or a file path was passed in. */
-function determineCat(pathOrUrl){
-  try{
+function determineCat(pathOrUrl) {
+  try {
     new URL(pathOrUrl);
     webCat(pathOrUrl);
   }
-  catch{
+  catch {
     cat(pathOrUrl);
   }
 }
